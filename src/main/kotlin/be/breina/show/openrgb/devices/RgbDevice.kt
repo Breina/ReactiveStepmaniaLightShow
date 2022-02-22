@@ -1,42 +1,23 @@
 package be.breina.show.openrgb.devices
 
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
-import java.util.*
 
-abstract class RgbDevice protected constructor(controllerIndex: Int, size: Int) {
-    private val deviceLeds: Array<OpenRGBColor>
+interface RgbDevice {
+    val isDirty: Boolean
+
     val index: Int
 
-    init {
-        deviceLeds = Array(size) { OpenRGBColor(0, 0, 0) }
-        index = controllerIndex
-    }
+//    var parent: RgbDevice?
 
-    fun mergeLeds(color: OpenRGBColor) {
-        mergeLeds(0, getDeviceLedCount(), color)
-    }
+    fun getDeviceLeds(): Array<OpenRGBColor>
 
-    open fun mergeLeds(offset: Int, length: Int, color: OpenRGBColor) {
-        val maxIndex = offset + length
-        for (i in offset until maxIndex) {
-            val led = deviceLeds[i]
-            deviceLeds[i] = OpenRGBColor(
-                Integer.max(led.red.toUByte().toInt(), color.red.toUByte().toInt()),
-                Integer.max(led.green.toUByte().toInt(), color.green.toUByte().toInt()),
-                Integer.max(led.blue.toUByte().toInt(), color.blue.toUByte().toInt())
-            )
-        }
-    }
+    fun getDeviceLedCount(): Int = getDeviceLeds().size
 
-    open fun clear() {
-        Arrays.fill(deviceLeds, BLACK)
-    }
+    fun mergeLeds(offset: Int, length: Int, color: OpenRGBColor)
 
-    open fun getDeviceLedCount(): Int = deviceLeds.size
+    fun clear()
 
-    open fun getDeviceLeds(): Array<OpenRGBColor> = deviceLeds
-
-    companion object {
-        val BLACK = OpenRGBColor(0, 0, 0)
-    }
+//    fun getRootDevice(): RgbDevice {
+//
+//    }
 }

@@ -1,9 +1,11 @@
-package be.breina.show.openrgb.devices
+package be.breina.show.openrgb.devices.impl
 
+import be.breina.show.openrgb.devices.AbstractRgbDevice
+import be.breina.show.openrgb.devices.Strippable
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 import io.gitlab.mguimard.openrgb.entity.OpenRGBDevice
 
-class Strip(controllerIndex: Int, size: Int) : RgbDevice(controllerIndex, size), Strippable {
+class Strip(controllerIndex: Int, size: Int) : AbstractRgbDevice(controllerIndex, size), Strippable {
     constructor(controllerIndex: Int, openRGBDevice: OpenRGBDevice) : this(controllerIndex, openRGBDevice.leds.size)
 
     override fun length(): Int = getDeviceLedCount()

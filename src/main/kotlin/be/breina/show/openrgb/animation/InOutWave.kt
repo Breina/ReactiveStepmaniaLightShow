@@ -3,13 +3,12 @@ package be.breina.show.openrgb.animation
 import be.breina.show.openrgb.devices.Strippable
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 import java.time.Duration
-import java.util.function.Consumer
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.pow
 
 class InOutWave(strip: Strippable, color: OpenRGBColor, duration: Duration) :
-    AbstractAnimation(duration, Consumer { progress: Float -> apply(strip, color, progress) }) {
+    AbstractAnimation(duration, strip, { progress: Float -> apply(strip, color, progress) }) {
     companion object {
         private fun apply(strip: Strippable, color: OpenRGBColor, progress: Float) {
             val actualCenter = (strip.length() - 1) / 2f

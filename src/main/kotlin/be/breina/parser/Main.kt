@@ -13,6 +13,12 @@ object Main {
     fun main(args: Array<String>) {
         val song = SMParser.parse(
             Path.of(
+//                "F:\\Games\\Etterna\\Songs\\Hayden\\A\\A.sm"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 2\\Please Listen With X-Rated Videos MIX\\X-rated.sm"
+//            "F:\\Games\\Etterna\\Songs\\hard shit\\Death Piano\\Death.sm" // Broken
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 4\\How Fast Cen U Roll Niga What\\how_fast_cen_u_roll_niga_wut.sm"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 12\\Flandre's Theme Piano Remix\\Flandre's Theme.sm"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 5\\Pink Magic\\zen.sm"
 //            "F:\\Games\\Etterna\\Songs\\Yolo Dumps 1\\AiAe (Wafles)\\04. AiAe.sm"
 //                "F:\\Games\\Etterna\\Songs\\Guitar Hero Mega Pack\\Smoke on the Water\\Smoke on the Water.sm"
 //                "F:\\Games\\Etterna\\Songs\\Nuclear Blast JS Awesome Bomb Filez 5\\Soldiers of The Stamina (IcyWorld)\\DragonForce - Soldiers Of The Wasteland.sm"
@@ -20,8 +26,8 @@ object Main {
 //                "F:\\Games\\Etterna\\Songs\\Xoon 4 Blue Version\\(who_cares973) River Flows In You\\Yiruma_RiverFlowsInYou.sm"
 //                "F:\\Games\\Etterna\\Songs\\midare megapack 5\\Dog Cooking Eggs\\dog.sm"
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 11\\Stinger\\the flashbulb - stinger.sm"
-                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 9\\La Campanella\\La Campanella(who_cares973).sm"
-//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\scarhand.sm"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 9\\La Campanella\\La Campanella(who_cares973).sm"
+                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\scarhand.sm"
 //                "F:\\Games\\Etterna\\Songs\\Xoon 4 Blue Version\\(Baq12) Eruption\\002 Van Halen - Eruption.sm"
 //                "F:\\Games\\Etterna\\Songs\\Nuclear Blast JS Awesome Bomb Filez 5\\The Nature of Dying (IcyWorld)\\goreshit - semantic compositions on death and its meaning - 01 the nature of dying.sm"
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\Fury of The Storm EDIT\\Fury.sm"
@@ -39,7 +45,6 @@ object Main {
 //                "F:\\Games\\Etterna\\Songs\\Stepocalypse Set 2 - PUSH IT\\26. Pine nut (ATTangvsDroptable)\\Pine nut.sm"
 //            "F:\\Games\\Etterna\\Songs\\Nuclear Kimchi Chordjack Pack\\Set Fire to the Rain (aeyeong)\\01 - Adele - Set Fire To The Rain.sm"
 //            "F:\\Games\\Etterna\\Songs\\German Dump Mini Pack 1\\Swirling Toilet bowl of Glorious Dumps Pack V1 !!\\Wizards in Winter (Anaru)\\Wizards in Winter.sm"
-//            "F:\\Games\\Etterna\\Songs\\hard shit\\Death Piano\\Death.sm" // Broken
 //            "F:\\Games\\Etterna\\Songs\\Yolo Dumps 1\\Air (Alioth)\\[Alioth] SHIKI - Air.sm"
 //            "F:\\Games\\Etterna\\Songs\\CMDKDF Pack\\Cry Of The Brave (Zaghurim)\\Cry of the Brave.sm"
             )
@@ -49,15 +54,15 @@ object Main {
             song.charts["Challenge"] ?: song.charts["Hard"] ?: song.charts["Medium"] ?: song.charts["Easy"] ?: song.charts["Beginner"]!!
 
         // Java Swing
-        Player.play(song, chart, SwingMixer(song))
+//        Player.play(song, chart, SwingMixer(song))
 
         // DMX
 //        val dmxMixer = DmxMixer(song)
 //        Player.play(song, chart, dmxMixer.animator)
 
         // OpenRGB
-//        val bootstrapper = OpenRgbBootstrapper("localhost", 6742, song, TurboSetup())
-//        bootstrapper.getMainLoop().play()
-//        Player.play(song, chart, bootstrapper.getMixer())
+        val bootstrapper = OpenRgbBootstrapper("localhost", 6742, song, TurboSetup())
+        bootstrapper.getMainLoop().play()
+        Player.play(song, chart, bootstrapper.getMixer())
     }
 }

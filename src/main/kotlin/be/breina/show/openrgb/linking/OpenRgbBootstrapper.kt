@@ -7,7 +7,6 @@ import be.breina.parser.util.ColorExtractor.extractColors
 import be.breina.show.openrgb.MainLoop
 import be.breina.show.openrgb.Setup
 import be.breina.show.openrgb.animation.Animator
-import be.breina.show.openrgb.openrgb.DeviceUpdater
 import io.gitlab.mguimard.openrgb.client.OpenRGBClient
 import java.util.*
 
@@ -21,11 +20,11 @@ class OpenRgbBootstrapper(host: String?, port: Int, song: Song, setup: Setup) {
 
         val linker = OpenRgbDeviceLinker(client)
         setup.setupDevices(linker)
-        val deviceUpdater = DeviceUpdater(client, linker.getLinkedDevices())
+        val devices = linker.getLinkedDevices()
 
-        val animator = Animator(getColors(song))
+        val animator = Animator(getColors(song), devices)
         mixer = setup.setupAnimations(animator)
-        mainLoop = MainLoop(deviceUpdater, animator)
+        mainLoop = MainLoop(animator, devices, client)
     }
 
     fun getMixer(): Mixer = mixer

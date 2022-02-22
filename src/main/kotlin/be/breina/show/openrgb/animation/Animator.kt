@@ -1,16 +1,38 @@
 package be.breina.show.openrgb.animation
 
 import be.breina.parser.util.ColorExtractor
+import be.breina.show.openrgb.devices.MultiDevice
+import be.breina.show.openrgb.devices.RgbDevice
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 import java.awt.Color
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
-class Animator(private val palette: ColorExtractor.Palette) {
-    private val animations: CopyOnWriteArrayList<AbstractAnimation> = CopyOnWriteArrayList()
+class Animator(private val palette: ColorExtractor.Palette, linkedDevices: List<RgbDevice>) {
+    private val animations: ConcurrentHashMap<RgbDevice, CopyOnWriteArrayList<AbstractAnimation>> = ConcurrentHashMap()
 
-    fun addAnimations(vararg animations: AbstractAnimation) {
-        animations.forEach(this.animations::add)
+    init {
+        initializeDevices(linkedDevices)
     }
+
+    private fun initializeDevices(linkedDevices: List<RgbDevice>) {
+        linkedDevices.forEach { linkedDevice ->
+            run {
+                animations[linkedDevice] = CopyOnWriteArrayList<AbstractAnimation>()
+                if (linkedDevice is MultiDevice) {
+                    initializeDevices(linkedDevice.devices)
+                }
+            }
+        }
+    }
+
+    fun addAnimations(vararg newAnimations: AbstractAnimation) {
+        newAnimations.forEach { newAnimation ->
+            animations[newAnimation.device]?.also { existingAnimations -> existingAnimations.add(newAnimation) }
+        }
+    }
+
+    fun hasExistingAnimation(rgbDevice: RgbDevice): Boolean = animations.containsKey(rgbDevice)
 
     fun getPrimaryColor(): OpenRGBColor = mapToOpenRgb(palette.primary())
 
@@ -19,9 +41,17 @@ class Animator(private val palette: ColorExtractor.Palette) {
     fun getTertiaryColor(): OpenRGBColor = mapToOpenRgb(palette.tertiary())
 
     @Synchronized
-    fun tick() {
-        animations.forEach(AbstractAnimation::tick)
-        animations.removeIf(AbstractAnimation::isFinished)
+    fun tick(rgbDevice: RgbDevice) {
+        animations[rgbDevice]?.also { abstractAnimations ->
+            run {
+                abstractAnimations.forEach(AbstractAnimation::tick)
+                abstractAnimations.removeIf(AbstractAnimation::isFinished)
+            }
+        }
+
+        if (rgbDevice is MultiDevice) {
+            rgbDevice.devices.forEach(::tick)
+        }
     }
 
     companion object {

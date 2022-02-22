@@ -4,7 +4,7 @@ import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 import java.util.*
 import java.util.stream.Collectors
 
-class MultiDevice(controllerIndex: Int, private val devices: List<RgbDevice>) : RgbDevice(controllerIndex, 0) {
+class MultiDevice(controllerIndex: Int, val devices: List<RgbDevice>) : AbstractRgbDevice(controllerIndex, 0) {
     override fun mergeLeds(offset: Int, length: Int, color: OpenRGBColor) {
         val deviceIterator = devices.iterator()
         var workingOffset = offset
@@ -25,6 +25,10 @@ class MultiDevice(controllerIndex: Int, private val devices: List<RgbDevice>) : 
         devices.forEach(RgbDevice::clear)
     }
 
+    override var isDirty: Boolean
+        get() = devices.stream().anyMatch(RgbDevice::isDirty)
+        set(value) {}
+
     override fun getDeviceLedCount(): Int {
         return devices.stream()
             .mapToInt(RgbDevice::getDeviceLedCount)
@@ -38,6 +42,4 @@ class MultiDevice(controllerIndex: Int, private val devices: List<RgbDevice>) : 
             .collect(Collectors.toList())
             .toTypedArray()
     }
-
-    fun getDevices(): List<RgbDevice> = devices
 }

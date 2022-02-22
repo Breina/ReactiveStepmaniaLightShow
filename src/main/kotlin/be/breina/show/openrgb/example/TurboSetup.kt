@@ -4,7 +4,12 @@ import be.breina.parser.mixer.Mixer
 import be.breina.show.openrgb.OpenRgbException
 import be.breina.show.openrgb.Setup
 import be.breina.show.openrgb.animation.*
-import be.breina.show.openrgb.devices.*
+import be.breina.show.openrgb.devices.AbstractRgbDevice
+import be.breina.show.openrgb.devices.MultiDevice
+import be.breina.show.openrgb.devices.Strippable
+import be.breina.show.openrgb.devices.impl.CorsairLLFan
+import be.breina.show.openrgb.devices.impl.SingleLed
+import be.breina.show.openrgb.devices.impl.Strip
 import be.breina.show.openrgb.linking.OpenRgbDeviceLinker
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 import io.gitlab.mguimard.openrgb.entity.OpenRGBDevice
@@ -82,7 +87,7 @@ class TurboSetup : Setup {
         linker.linkDevice(
             "HID: \\\\?\\hid#vid_1b1c&pid_0c0b#a&154e50c2&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}"
         ) { index: Int, _: OpenRGBDevice? ->
-            MultiDevice(index, listOf<RgbDevice>(
+            MultiDevice(index, listOf<AbstractRgbDevice>(
                 CorsairLLFan(index).also {
                     fanSideTop = it
                 },
@@ -150,15 +155,23 @@ class TurboSetup : Setup {
             override fun hands(index: Int) {
                 animateHandsAsTaps(index) { tapIndex: Int -> animateRamTap(tapIndex, baseDuration.multipliedBy(4), animator.getSecondaryColor(), animator) }
                 animateHandsAsTaps(index) { tapIndex: Int -> animateCpuTap(tapIndex, baseDuration, animator.getSecondaryColor(), animator) }
-                animateGpuHands(index, baseDuration.multipliedBy(5), animator)
+
+                val handDuration = baseDuration.multipliedBy(5)
+                animateGpuHands(index, handDuration, animator)
+                animator.addAnimations(
+                    ColorFade(chipset!!, animator.getSecondaryColor(), handDuration),
+                    ColorFade(ioBlock!!, animator.getSecondaryColor(), handDuration)
+                )
             }
 
             override fun quad() {
                 val quadDuration = baseDuration.multipliedBy(5)
                 animateQuadAsTaps { tapIndex: Int -> animateRamTap(tapIndex, baseDuration.multipliedBy(4), animator.getPrimaryColor(), animator) }
                 animateQuadAsTaps { tapIndex: Int -> animateCpuTap(tapIndex, baseDuration, animator.getSecondaryColor(), animator) }
-                animator.addAnimations(ColorFade(caseFront!!, animator.getSecondaryColor(), quadDuration))
-                animator.addAnimations(ColorFade(reservoir!!, animator.getSecondaryColor(), quadDuration))
+                animator.addAnimations(
+                    ColorFade(caseFront!!, animator.getSecondaryColor(), quadDuration),
+                    ColorFade(reservoir!!, animator.getSecondaryColor(), quadDuration)
+                )
             }
 
             override fun hold(index: Int) {
@@ -224,8 +237,8 @@ class TurboSetup : Setup {
             }
             else -> throw IllegalStateException("Unexpected value: $index")
         }
-        animator.addAnimations(FanColorFade(bottomOrSideFan!!, duration, animator.getSecondaryColor()))
-        animator.addAnimations(FanColorFade(topFan!!, duration, animator.getSecondaryColor()))
+        animator.addAnimations(FanColorFade(bottomOrSideFan!!, duration, animator.getSecondaryColor(), animator.hasExistingAnimation(bottomOrSideFan)))
+        animator.addAnimations(FanColorFade(topFan!!, duration, animator.getSecondaryColor(), animator.hasExistingAnimation(topFan)))
     }
 
     private fun animateGpuHands(index: Int, duration: Duration, animator: Animator) {
@@ -332,7 +345,7 @@ class TurboSetup : Setup {
             if (stripIndex < 0) {
                 stripIndex += strip.length()
             }
-            animator.addAnimations(ColorFade(strip as RgbDevice, stripIndex, animator.getPrimaryColor(), duration))
+            animator.addAnimations(ColorFade(strip as AbstractRgbDevice, stripIndex, animator.getPrimaryColor(), duration))
         }
     }
 }

@@ -1,8 +1,11 @@
-package be.breina.show.openrgb.devices
+package be.breina.show.openrgb.devices.impl
 
+import be.breina.show.openrgb.devices.AbstractRgbDevice
+import be.breina.show.openrgb.devices.InnerOuterCircle
+import be.breina.show.openrgb.devices.Strippable
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 
-class CorsairLLFan(controllerIndex: Int) : RgbDevice(controllerIndex, 16), Strippable, InnerOuterCircle {
+class CorsairLLFan(controllerIndex: Int) : AbstractRgbDevice(controllerIndex, 16), Strippable, InnerOuterCircle {
     override fun mergeInnerCircle(openRGBColor: OpenRGBColor) {
         mergeLeds(0, INNER_LENGTH, openRGBColor)
     }

@@ -1,18 +1,21 @@
 package be.breina.show.openrgb.animation
 
+import be.breina.show.openrgb.devices.RgbDevice
 import java.time.Duration
 import java.time.Instant
 import java.util.function.Consumer
 
-abstract class AbstractAnimation(duration: Duration, deviceUpdater: Consumer<Float>) {
+abstract class AbstractAnimation(duration: Duration, device: RgbDevice, deviceUpdater: Consumer<Float>) {
     private val durationNanos: Long
     private var start: Instant
     internal val deviceUpdater: Consumer<Float>
     private var isFinished: Boolean
+    internal val device: RgbDevice
 
     init {
         durationNanos = duration.toNanos()
         this.deviceUpdater = deviceUpdater
+        this.device = device
         start = Instant.now()
         isFinished = false
     }
