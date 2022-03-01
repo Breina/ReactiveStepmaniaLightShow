@@ -1,17 +1,8 @@
 package be.breina.parser.audio
 
 import java.io.File
-import javax.sound.sampled.AudioSystem
-import javax.sound.sampled.AudioFormat
-import be.breina.parser.audio.AudioFilePlayer
-import javax.sound.sampled.DataLine
-import javax.sound.sampled.SourceDataLine
-import javax.sound.sampled.AudioInputStream
-import javax.sound.sampled.UnsupportedAudioFileException
-import java.lang.IllegalStateException
-import javax.sound.sampled.LineUnavailableException
 import java.io.IOException
-import kotlin.Throws
+import javax.sound.sampled.*
 
 object AudioFilePlayer2 {
     fun play(file: File?) {
@@ -21,14 +12,12 @@ object AudioFilePlayer2 {
                 val outFormat = getOutFormat(`in`.format)
                 val info = DataLine.Info(SourceDataLine::class.java, outFormat)
                 val line = AudioSystem.getLine(info) as SourceDataLine
-                if (line != null) {
-                    line.open(outFormat)
-                    line.start()
-                    val inputMystream = AudioSystem.getAudioInputStream(outFormat, `in`)
-                    stream(inputMystream, line)
-                    line.drain()
-                    line.stop()
-                }
+                line.open(outFormat)
+                line.start()
+                val inputMystream = AudioSystem.getAudioInputStream(outFormat, `in`)
+                stream(inputMystream, line)
+                line.drain()
+                line.stop()
             }
         } catch (e: UnsupportedAudioFileException) {
             throw IllegalStateException(e)

@@ -26,7 +26,8 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "13"
+    kotlinOptions.languageVersion = "1.6"
+    kotlinOptions.jvmTarget = "11"
 }
 
 //javafx {

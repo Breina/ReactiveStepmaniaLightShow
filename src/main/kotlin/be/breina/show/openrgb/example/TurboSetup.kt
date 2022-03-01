@@ -8,6 +8,7 @@ import be.breina.show.openrgb.devices.AbstractRgbDevice
 import be.breina.show.openrgb.devices.MultiDevice
 import be.breina.show.openrgb.devices.Strippable
 import be.breina.show.openrgb.devices.impl.CorsairLLFan
+import be.breina.show.openrgb.devices.impl.CorsairQLFan
 import be.breina.show.openrgb.devices.impl.SingleLed
 import be.breina.show.openrgb.devices.impl.Strip
 import be.breina.show.openrgb.linking.OpenRgbDeviceLinker
@@ -43,6 +44,7 @@ class TurboSetup : Setup {
     private var fanTopBack: CorsairLLFan? = null
     private var fanTopMiddle: CorsairLLFan? = null
     private var fanTopFront: CorsairLLFan? = null
+    private var fanRear: CorsairQLFan? = null
     private var reservoir: Strip? = null
 
     @Throws(OpenRgbException::class)
@@ -89,16 +91,19 @@ class TurboSetup : Setup {
         ) { index: Int, _: OpenRGBDevice? ->
             MultiDevice(index, listOf<AbstractRgbDevice>(
                 CorsairLLFan(index).also {
-                    fanSideTop = it
-                },
-                CorsairLLFan(index).also {
-                    fanSideMiddle = it
-                },
-                CorsairLLFan(index).also {
                     fanSideBottom = it
                 },
                 CorsairLLFan(index).also {
-                    fanBottomBack = it
+                    fanTopFront = it
+                },
+                CorsairLLFan(index).also {
+                    fanTopBack = it
+                },
+                CorsairLLFan(index).also {
+                    fanTopMiddle = it
+                },
+                CorsairQLFan(index).also {
+                    fanRear = it
                 },
                 CorsairLLFan(index).also {
                     fanBottomMiddle = it
@@ -107,13 +112,13 @@ class TurboSetup : Setup {
                     fanBottomFront = it
                 },
                 CorsairLLFan(index).also {
-                    fanTopBack = it
+                    fanBottomBack = it
                 },
                 CorsairLLFan(index).also {
-                    fanTopMiddle = it
+                    fanSideTop = it
                 },
                 CorsairLLFan(index).also {
-                    fanTopFront = it
+                    fanSideMiddle = it
                 },
                 Strip(index, 27).also {
                     reservoir = it
@@ -161,6 +166,10 @@ class TurboSetup : Setup {
                 animator.addAnimations(
                     ColorFade(chipset!!, animator.getSecondaryColor(), handDuration),
                     ColorFade(ioBlock!!, animator.getSecondaryColor(), handDuration)
+                )
+
+                animator.addAnimations(
+                    FanQlColorFade(fanRear!!, handDuration, animator.getSecondaryColor(), index % 2 == 0)
                 )
             }
 

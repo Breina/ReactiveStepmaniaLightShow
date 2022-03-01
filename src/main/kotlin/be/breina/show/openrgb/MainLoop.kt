@@ -22,13 +22,17 @@ class MainLoop(private val animator: Animator, private val devices: List<RgbDevi
 
                     // FIXME If the last update of a non-dirty device was missed, the light will stay on
 //                    if (rgbDevice.isDirty) {
-                        client.updateLeds(rgbDevice.index, rgbDevice.getDeviceLeds())
+                        val desiredLeds = rgbDevice.getDeviceLeds()
+                        client.updateLeds(rgbDevice.index, desiredLeds)
+
+//                        while (!client.getDeviceController(rgbDevice.index).leds.equals(desiredLeds)) {
+//                            Thread.sleep(1, 0)
+//                        }
 //                    }
                 }
             }
 
-            // This is way too much, yet OpenRGB still can't follow :/
-            Thread.sleep(30)
+            Thread.sleep(10)
 
             frameCount++
 

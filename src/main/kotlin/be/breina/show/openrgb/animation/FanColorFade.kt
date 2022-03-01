@@ -1,6 +1,7 @@
 package be.breina.show.openrgb.animation
 
 import be.breina.show.openrgb.devices.InnerOuterCircle
+import be.breina.show.openrgb.devices.InnerOuterFrontBackCircle
 import io.gitlab.mguimard.openrgb.entity.OpenRGBColor
 import java.time.Duration
 
@@ -18,13 +19,13 @@ class FanColorFade(fan: InnerOuterCircle, duration: Duration, color: OpenRGBColo
 ) {
     companion object {
         private fun inward(device: InnerOuterCircle, color: OpenRGBColor, progress: Float) {
-            device.mergeInnerCircle(ColorUtil.dim(color, 1f - progress))
-            device.mergeOuterCircle(ColorUtil.dim(color, (1f - progress) / 2f))
+            device.mergeInnerFrontCircle(ColorUtil.dim(color, 1f - progress))
+            device.mergeOuterFrontCircle(ColorUtil.dim(color, (1f - progress) / 2f))
         }
 
         private fun outward(device: InnerOuterCircle, color: OpenRGBColor, progress: Float) {
-            device.mergeInnerCircle(ColorUtil.dim(color, (1f - progress) / 2f))
-            device.mergeOuterCircle(ColorUtil.dim(color, 1f - progress))
+            device.mergeInnerFrontCircle(ColorUtil.dim(color, (1f - progress) / 2f))
+            device.mergeOuterFrontCircle(ColorUtil.dim(color, 1f - progress))
         }
     }
 }

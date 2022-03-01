@@ -3,6 +3,7 @@ package be.breina.parser
 import be.breina.parser.io.sm.SMParser
 import be.breina.parser.mixer.SwingMixer
 import be.breina.parser.model.Chart
+import be.breina.show.dmx.DmxMixer
 import be.breina.show.openrgb.example.TurboSetup
 import be.breina.show.openrgb.linking.OpenRgbBootstrapper
 import java.nio.file.Path
@@ -13,6 +14,9 @@ object Main {
     fun main(args: Array<String>) {
         val song = SMParser.parse(
             Path.of(
+//                "F:\\Games\\Etterna\\Songs\\Astronomic Metal Collection 2\\(Patashu) Hatebreeder\\Hatebreeder.sm"
+//                "F:\\Games\\Etterna\\Songs\\Astronomic Metal Collection\\Fatal tragedy (KangXIX)\\Fatal Tragedy.sm"
+//                "F:\\Games\\Etterna\\Songs\\FFR Community Pack Winter 2011\\Blackened (Baq12)\\Blackened.sm"
 //                "F:\\Games\\Etterna\\Songs\\Hayden\\A\\A.sm"
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 2\\Please Listen With X-Rated Videos MIX\\X-rated.sm"
 //            "F:\\Games\\Etterna\\Songs\\hard shit\\Death Piano\\Death.sm" // Broken
@@ -26,8 +30,8 @@ object Main {
 //                "F:\\Games\\Etterna\\Songs\\Xoon 4 Blue Version\\(who_cares973) River Flows In You\\Yiruma_RiverFlowsInYou.sm"
 //                "F:\\Games\\Etterna\\Songs\\midare megapack 5\\Dog Cooking Eggs\\dog.sm"
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 11\\Stinger\\the flashbulb - stinger.sm"
-//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 9\\La Campanella\\La Campanella(who_cares973).sm"
-                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\scarhand.sm"
+                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 9\\La Campanella\\La Campanella(who_cares973).sm"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\scarhand.sm"
 //                "F:\\Games\\Etterna\\Songs\\Xoon 4 Blue Version\\(Baq12) Eruption\\002 Van Halen - Eruption.sm"
 //                "F:\\Games\\Etterna\\Songs\\Nuclear Blast JS Awesome Bomb Filez 5\\The Nature of Dying (IcyWorld)\\goreshit - semantic compositions on death and its meaning - 01 the nature of dying.sm"
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\Fury of The Storm EDIT\\Fury.sm"
@@ -57,7 +61,7 @@ object Main {
 //        Player.play(song, chart, SwingMixer(song))
 
         // DMX
-//        val dmxMixer = DmxMixer(song)
+//        val dmxMixer = DmxMixer(song)-
 //        Player.play(song, chart, dmxMixer.animator)
 
         // OpenRGB
