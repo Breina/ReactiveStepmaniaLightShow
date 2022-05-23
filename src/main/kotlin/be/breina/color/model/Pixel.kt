@@ -4,7 +4,7 @@ import be.breina.color.Ciede2000
 import be.breina.color.ColorConverting
 import java.util.*
 
-class Pixel(val x: Int, val y: Int, val rgb: Int) {
+class Pixel(val x: Int, val y: Int, val rgb: Int) : Comparable<Pixel> {
     private val lab = ColorConverting.toLab(ColorConverting.toXyz(rgb))
     var region = Region()
 
@@ -18,6 +18,14 @@ class Pixel(val x: Int, val y: Int, val rgb: Int) {
             pixel.lab.l.toDouble(), pixel.lab.a.toDouble(), pixel.lab.b
                 .toDouble()
         )
+    }
+
+    override fun compareTo(other: Pixel): Int {
+        return if (compare(other) > 0) {
+            1
+        } else {
+            0
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -34,6 +42,9 @@ class Pixel(val x: Int, val y: Int, val rgb: Int) {
     override fun hashCode(): Int = Objects.hash(x, y)
 
     fun mergeRegion(region: Region) {
+        if (region == this.region) {
+            return
+        }
         region.pixels.forEach { regionPixel ->
             run {
                 regionPixel.region = this.region

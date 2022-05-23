@@ -17,6 +17,7 @@ repositories {
 dependencies {
     implementation(group = "de.huxhorn.sulky", name = "de.huxhorn.sulky.3rdparty.jlayer", version = "1.0")
     implementation("io.gitlab.mguimard:openrgb-client:1.15")
+//    implementation("com.google.guava:guava:31.1-jre")
     testImplementation(kotlin("test"))
     implementation("ch.bildspur:artnet4j:0.6.2")
 }

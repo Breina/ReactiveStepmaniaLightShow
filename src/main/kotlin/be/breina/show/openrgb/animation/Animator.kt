@@ -1,5 +1,6 @@
 package be.breina.show.openrgb.animation
 
+import be.breina.color.model.Palette
 import be.breina.parser.util.ColorExtractor
 import be.breina.show.openrgb.devices.MultiDevice
 import be.breina.show.openrgb.devices.RgbDevice
@@ -8,7 +9,7 @@ import java.awt.Color
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
 
-class Animator(private val palette: ColorExtractor.Palette, linkedDevices: List<RgbDevice>) {
+class Animator(private val palette: Palette, linkedDevices: List<RgbDevice>) {
     private val animations: ConcurrentHashMap<RgbDevice, CopyOnWriteArrayList<AbstractAnimation>> = ConcurrentHashMap()
 
     init {
@@ -34,11 +35,11 @@ class Animator(private val palette: ColorExtractor.Palette, linkedDevices: List<
 
     fun hasExistingAnimation(rgbDevice: RgbDevice): Boolean = animations.containsKey(rgbDevice)
 
-    fun getPrimaryColor(): OpenRGBColor = mapToOpenRgb(palette.primary())
+    fun getPrimaryColor(): OpenRGBColor = mapToOpenRgb(palette.primary)
 
-    fun getSecondaryColor(): OpenRGBColor = mapToOpenRgb(palette.secondary())
+    fun getSecondaryColor(): OpenRGBColor = mapToOpenRgb(palette.secondary)
 
-    fun getTertiaryColor(): OpenRGBColor = mapToOpenRgb(palette.tertiary())
+    fun getTertiaryColor(): OpenRGBColor = mapToOpenRgb(palette.tertiary)
 
     @Synchronized
     fun tick(rgbDevice: RgbDevice) {

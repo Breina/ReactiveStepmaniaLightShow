@@ -1,13 +1,14 @@
 package be.breina.show.openrgb.linking
 
+import be.breina.color.PaletteExtractor
+import be.breina.color.model.Palette
 import be.breina.parser.mixer.Mixer
 import be.breina.parser.model.Song
-import be.breina.parser.util.ColorExtractor
-import be.breina.parser.util.ColorExtractor.extractColors
 import be.breina.show.openrgb.MainLoop
 import be.breina.show.openrgb.Setup
 import be.breina.show.openrgb.animation.Animator
 import io.gitlab.mguimard.openrgb.client.OpenRGBClient
+import java.awt.Color
 import java.util.*
 
 class OpenRgbBootstrapper(host: String?, port: Int, song: Song, setup: Setup) {
@@ -32,17 +33,23 @@ class OpenRgbBootstrapper(host: String?, port: Int, song: Song, setup: Setup) {
     fun getMainLoop(): MainLoop = mainLoop
 
     companion object {
-        private fun getColors(song: Song): ColorExtractor.Palette {
+        private fun getColors(song: Song): Palette {
             if (song.background != null) {
-                return extractColors(song.background!!)
+                return PaletteExtractor.extractColors(song.background!!)
             } else if (song.banner != null) {
-                return extractColors(song.banner!!)
+                return PaletteExtractor.extractColors(song.banner!!)
             } else if (song.cdTitle != null) {
-                return extractColors(song.cdTitle!!)
+                return PaletteExtractor.extractColors(song.cdTitle!!)
             }
             println("Warning: song has no background, banner or cdTitle. Using random colors...")
             val r = Random()
-            return ColorExtractor.Palette(r.nextInt(), r.nextInt(), r.nextInt())
+            return Palette(
+                arrayOf(
+                    Color(r.nextInt()),
+                    Color(r.nextInt()),
+                    Color(r.nextInt())
+                )
+            )
         }
     }
 }

@@ -1,21 +1,23 @@
 package be.breina.color.model
 
+import be.breina.parser.model.MedianHeap
 import java.util.*
-import java.util.stream.Collectors
 
 class Region {
     private var isEmptyCallback: Runnable? = null
-    val pixels: MutableSet<Pixel> = HashSet()
+
+    //    val pixels: MutableSet<Pixel> = HashSet()
+    val pixels: MedianHeap<Pixel> = MedianHeap()
     fun addPixel(pixel: Pixel) {
         pixels.add(pixel)
     }
 
-    fun removePixel(pixel: Pixel) {
-        pixels.remove(pixel)
-        if (pixels.isEmpty()) {
-            isEmptyCallback!!.run()
-        }
-    }
+//    fun removePixel(pixel: Pixel) {
+//        pixels.remove(pixel)
+//        if (pixels.isEmpty()) {
+//            isEmptyCallback!!.run()
+//        }
+//    }
 
     /**
      * Biggest first
@@ -28,9 +30,10 @@ class Region {
 
     override fun hashCode(): Int = Objects.hash(pixels)
 
-    fun getMedianPixel(): Pixel {
-        return pixels.stream().findAny().get()
+    fun getMedianPixel(): Pixel = pixels.median
 
+//        return pixels.stream().findFirst().get()
+//
 //        val sortedPixels = pixels.stream()
 //            .sorted { o1, o2 ->
 //                {
@@ -47,7 +50,6 @@ class Region {
 //            .collect(Collectors.toList())
 //
 //        return sortedPixels[sortedPixels.size / 2]
-    }
 
     fun setEmptyCallback(callback: Runnable?) {
         isEmptyCallback = callback
@@ -63,4 +65,6 @@ class Region {
 
         return true
     }
+
+    fun isEmpty(): Boolean = pixels.isEmpty()
 }

@@ -1,6 +1,7 @@
 package be.breina.parser
 
 import be.breina.parser.io.sm.SMParser
+import be.breina.parser.mixer.PolyMixer
 import be.breina.parser.mixer.SwingMixer
 import be.breina.parser.model.Chart
 import be.breina.show.dmx.DmxMixer
@@ -14,6 +15,11 @@ object Main {
     fun main(args: Array<String>) {
         val song = SMParser.parse(
             Path.of(
+//                "F:\\Games\\Etterna\\Songs\\Xingyue's ETTERNA V\\Animals\\Animals.sm"
+//                "F:\\Games\\Etterna\\Songs\\Agressive Dump Pack\\Earthquake\\HD Dubstep - Earthquake (Fytch Remix) [FEATURED] - [MP3JUICES.COM].sm"
+//                "F:\\Games\\Etterna\\Songs\\Agressive Dump Pack\\All the things she said  DNB MIX\\all the things she said dnb.sm"
+//                "F:\\Games\\Etterna\\Songs\\Agressive Dump Pack\\Bass cannon\\Bass Cannon.sm"
+//                "F:\\Games\\Etterna\\Songs\\Nuclear Blast JS Awesome Bomb Filez 3\\11eleven (IcyWorld)\\DJ Sharpnel - 11eleven.sm"
 //                "F:\\Games\\Etterna\\Songs\\Astronomic Metal Collection 2\\(Patashu) Hatebreeder\\Hatebreeder.sm"
 //                "F:\\Games\\Etterna\\Songs\\Astronomic Metal Collection\\Fatal tragedy (KangXIX)\\Fatal Tragedy.sm"
 //                "F:\\Games\\Etterna\\Songs\\FFR Community Pack Winter 2011\\Blackened (Baq12)\\Blackened.sm"
@@ -29,8 +35,8 @@ object Main {
 //                "F:\\Games\\Etterna\\Songs\\Nuclear Blast JS Awesome Bomb Filez 5\\Nothing Left (MetzgerSM)\\02 Nothing Left.sm"
 //                "F:\\Games\\Etterna\\Songs\\Xoon 4 Blue Version\\(who_cares973) River Flows In You\\Yiruma_RiverFlowsInYou.sm"
 //                "F:\\Games\\Etterna\\Songs\\midare megapack 5\\Dog Cooking Eggs\\dog.sm"
-//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 11\\Stinger\\the flashbulb - stinger.sm"
-                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 9\\La Campanella\\La Campanella(who_cares973).sm"
+                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 11\\Stinger\\the flashbulb - stinger.sm"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 9\\La Campanella\\La Campanella(who_cares973).sm"
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\scarhand.sm"
 //                "F:\\Games\\Etterna\\Songs\\Xoon 4 Blue Version\\(Baq12) Eruption\\002 Van Halen - Eruption.sm"
 //                "F:\\Games\\Etterna\\Songs\\Nuclear Blast JS Awesome Bomb Filez 5\\The Nature of Dying (IcyWorld)\\goreshit - semantic compositions on death and its meaning - 01 the nature of dying.sm"
@@ -59,14 +65,19 @@ object Main {
 
         // Java Swing
 //        Player.play(song, chart, SwingMixer(song))
+//        val swingMixer = SwingMixer(song)
 
         // DMX
-//        val dmxMixer = DmxMixer(song)-
+//        val dmxMixer = DmxMixer(song)
 //        Player.play(song, chart, dmxMixer.animator)
 
         // OpenRGB
         val bootstrapper = OpenRgbBootstrapper("localhost", 6742, song, TurboSetup())
         bootstrapper.getMainLoop().play()
-        Player.play(song, chart, bootstrapper.getMixer())
+        val openRgbMixer = bootstrapper.getMixer()
+//        Player.play(song, chart, bootstrapper.getMixer())
+
+//        Player.play(song, chart, PolyMixer(listOf(swingMixer, openRgbMixer)));
+        Player.play(song, chart, openRgbMixer)
     }
 }

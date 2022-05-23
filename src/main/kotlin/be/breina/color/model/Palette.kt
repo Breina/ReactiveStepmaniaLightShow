@@ -3,7 +3,7 @@ package be.breina.color.model
 import java.awt.Color
 
 class Palette(colors: Array<Color>) {
-    private val colors: Array<Color>
+    val colors: Array<Color>
 
     init {
         assert(colors.isNotEmpty())

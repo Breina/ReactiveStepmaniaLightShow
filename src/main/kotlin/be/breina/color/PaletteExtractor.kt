@@ -5,6 +5,7 @@ import be.breina.color.model.Palette
 import be.breina.color.model.Pixel
 import be.breina.color.model.Region
 import java.awt.Color
+import java.awt.color.ColorSpace
 import java.awt.image.BufferedImage
 import java.util.stream.Collectors
 import java.util.stream.IntStream
@@ -13,16 +14,20 @@ import java.util.stream.IntStream
  * @author https://link.springer.com/content/pdf/10.1007%252F978-3-540-85920-8_91.pdf
  */
 object PaletteExtractor {
-    private const val TOLERANCE_THRESHOLD = 20.0
+    private const val TOLERANCE_THRESHOLD = 15.0
 
-    fun extractColors(rgbImage: BufferedImage): Palette {
-        val image = getReducedImage(rgbImage)
+    fun extractColors(rgbImage: BufferedImage): Palette = extractColors(getReducedImage(rgbImage))
 
+    fun extractColors(image: Image): Palette {
         return Palette(
             image.regions.stream()
+                .filter { !it.isEmpty() }
                 .map(Region::getMedianPixel)
                 .map(Pixel::rgb)
                 .map(::Color)
+                .filter { !isVeryDarkOrVeryLight(it) }
+                .filter(::isColorFul)
+                .map(::saturate)
                 .collect(Collectors.toList())
                 .toTypedArray()
         )
@@ -90,4 +95,28 @@ object PaletteExtractor {
     }
 
     class NeighbourRank(val neighbour: Pixel, val score: Double)
+
+    private fun isVeryDarkOrVeryLight(color: Color): Boolean {
+        val colorSpace = ColorSpace.getInstance(ColorSpace.CS_CIEXYZ)
+
+        val colorComponents = color.getColorComponents(colorSpace, null)
+        val y = colorComponents[1]
+        return y < 0.1F || y > 0.35F
+
+//        return color.red < 30 && color.green < 30 && color.blue < 30
+    }
+
+    private fun isColorFul(color: Color): Boolean {
+        val colorComponents = listOf(color.red, color.green, color.blue)
+        val min = colorComponents.reduce(Math::min)
+        val max = colorComponents.reduce(Math::max)
+        return (max - min) > 50
+    }
+
+    private fun saturate(color: Color): Color {
+//        val colorSpace = ColorSpace.getInstance(ColorSpace.TYPE_HSV)
+//        val hsv = color.getComponents(colorSpace, null)
+//        return Color(colorSpace, hsv, 1f)
+        return color
+    }
 }

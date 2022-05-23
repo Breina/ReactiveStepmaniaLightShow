@@ -19,7 +19,7 @@ This is direct raw testing code straight to my goal, please don't judge me.
 * The theads don't stop when the song is done.
 * It only supports `.sm` format for now.
 * We can only play `.mp3` songs, no `.ogg`. Converting it seems to alter timings.
-* `ColorExtractor` is hilariously bad at its job. Primary, secondary and tertiary colors may be very off.
+* ~~`ColorExtractor` is hilariously bad at its job. Primary, secondary and tertiary colors may be very off.~~
 * Code is bad. I know.
 * Despite wasting a lot of milliseconds, OpenRGB still might mis LED updates.
 

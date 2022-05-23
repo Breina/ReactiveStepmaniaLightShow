@@ -1,8 +1,8 @@
 package be.breina.show.dmx.animation
 
+import be.breina.color.PaletteExtractor
 import be.breina.parser.mixer.Mixer
 import be.breina.parser.model.Song
-import be.breina.parser.util.ColorExtractor
 import be.breina.show.dmx.lights.LightCwWw
 import be.breina.show.dmx.lights.LightRgb
 import be.breina.show.dmx.lights.LightRgbw
@@ -70,7 +70,7 @@ class Animator(song: Song, val send: () -> Unit) : Mixer {
 
     private var dimRate: Float = 1.015F
     private var startTime: Long = System.currentTimeMillis()
-    private val palette: ColorExtractor.Palette = ColorExtractor.extractColors(
+    private val palette: be.breina.color.model.Palette = PaletteExtractor.extractColors(
         when {
             song.background != null -> {
                 song.background!!
@@ -128,14 +128,14 @@ class Animator(song: Song, val send: () -> Unit) : Mixer {
         var shouldDraw: Boolean = false
         var brightness: Float = 0f
 
-        fun tap(color: Color = palette.primary()) {
+        fun tap(color: Color = palette.primary) {
             shouldDraw = true
             brightness = 1f
             setColor(color)
             held = false
         }
 
-        fun hold(color: Color = palette.secondary()) {
+        fun hold(color: Color = palette.secondary) {
             shouldDraw = true
             brightness = 1f
             held = true
@@ -195,15 +195,15 @@ class Animator(song: Song, val send: () -> Unit) : Mixer {
     }
 
     override fun jump(index: Int) {
-        jumpLightData[index].tap(palette.secondary())
+        jumpLightData[index].tap(palette.secondary)
     }
 
     override fun hands(index: Int) {
-        handsLightData[index % 3].tap(palette.tertiary())
+        handsLightData[index % 3].tap(palette.tertiary)
     }
 
     override fun quad() {
-        quadLightData[0].tap(palette.tertiary())
+        quadLightData[0].tap(palette.tertiary)
     }
 
     override fun hold(index: Int) {

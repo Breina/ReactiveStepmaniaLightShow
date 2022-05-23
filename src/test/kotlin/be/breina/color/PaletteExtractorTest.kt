@@ -16,11 +16,15 @@ import javax.swing.WindowConstants
 internal class PaletteExtractorTest {
     @Test
     @Throws(IOException::class)
-    fun testStScarhand() {
+    fun testColorPalette() {
         val bufferedImage = ImageIO.read(
             File(
 //                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\can-tama119123.png"
-                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\can-tama119.jpg"
+//                "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\St. Scarhand\\can-tama119.jpg"
+//            "F:\\Games\\Etterna\\Songs\\Definitive Keyboard Megapack\\Rose(Cartoon)\\rose-bg.jpg"
+//            "F:\\Games\\Etterna\\Songs\\ODIPack3\\[Nick Skyline] - Fallen World\\fallenworld-bg.jpg"
+//            "F:\\Games\\Etterna\\Songs\\Hard Songs Megapack Volume 1\\Fury of The Storm EDIT\\furyofthestormBG.png"
+            "F:\\Games\\Etterna\\Songs\\Stepocalypse Set 1 - Tiers\\[2-SPD] Bokura no 16Bit Wars\\80AqFu4.jpg"
             )
         )
         showImage(bufferedImage)
@@ -37,20 +41,22 @@ internal class PaletteExtractorTest {
 
         showImage(reducedImage).location = Point(reducedImage.width, 0)
 
-        val regions = reducedImageData.regions
-            .filter { region -> region.pixels.isNotEmpty() }
-            .sortedByDescending { region -> region.pixels.size }.toTypedArray()
+        var palette = PaletteExtractor.extractColors(reducedImageData)
+
+//        val regions = reducedImageData.regions
+//            .filter { region -> region.pixels.isNotEmpty() }
+//            .sortedByDescending { region -> region.pixels.size }.toTypedArray()
 
         val paletteImage = BufferedImage(bufferedImage.width, 100, bufferedImage.type)
 
-        for (i in regions.indices) {
-            val region = regions[i]
-            val medianPixel = region.getMedianPixel()
+        val colors = palette.colors
+        for (i in colors.indices) {
+            val partWidth = bufferedImage.width / colors.size
+            val color = colors[i]
 
-            val partWidth = bufferedImage.width / regions.size
             for (x in range(partWidth * i, partWidth * (i + 1))) {
                 for (y in range(0, 100)) {
-                    paletteImage.setRGB(x, y, medianPixel.rgb)
+                    paletteImage.setRGB(x, y, color.rgb)
                 }
             }
         }
