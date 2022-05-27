@@ -12,6 +12,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Common" />
+            <option value="$PROJECT_DIR$/Player" />
+            <option value="$PROJECT_DIR$/Player/DmxPlayer" />
+            <option value="$PROJECT_DIR$/Player/OpenRgbPlayer" />
+            <option value="$PROJECT_DIR$/Player/SwingPlayer" />
+            <option value="$PROJECT_DIR$/StepmaniaParser" />
           </set>
         </option>
       </GradleProjectSettings>

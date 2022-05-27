@@ -86,12 +86,6 @@
         <pair source="c" header="h" />
       </extensions>
     </Objective-C-extensions>
-    <PostgresCodeStyleSettings version="6">
-      <option name="USE_GENERAL_STYLE" value="false" />
-      <option name="KEYWORD_CASE" value="2" />
-      <option name="TYPE_CASE" value="2" />
-      <option name="CUSTOM_TYPE_CASE" value="2" />
-    </PostgresCodeStyleSettings>
     <Python>
       <option name="USE_CONTINUATION_INDENT_FOR_ARGUMENTS" value="true" />
     </Python>

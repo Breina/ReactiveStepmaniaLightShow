@@ -21,7 +21,6 @@
     </inspection_tool>
     <inspection_tool class="AtomicFieldUpdaterIssues" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="AtomicFieldUpdaterNotStaticFinal" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="AutoCloseableResource" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="BadExceptionCaught" enabled="true" level="ERROR" enabled_by_default="true">
       <option name="exceptionsString" value="" />
       <option name="exceptions">
@@ -330,7 +329,7 @@
     <inspection_tool class="MisspelledEquals" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="MisspelledMethodName" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="MultipleTypedDeclaration" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="NewClassNamingConvention" enabled="true" level="ERROR" enabled_by_default="true">
+    <inspection_tool class="NewClassNamingConvention" enabled="false" level="ERROR" enabled_by_default="false">
       <extension name="AbstractClassNamingConvention" enabled="true">
         <option name="inheritDefaultSettings" value="true" />
         <option name="m_regex" value="[A-Z][A-Za-z\d]*" />

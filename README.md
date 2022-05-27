@@ -4,9 +4,28 @@ This code is very rough, there's still a fair bit of work to do until I am conte
 
 This is direct raw testing code straight to my goal, please don't judge me.
 
+# Architecture overview
+
+## Dependency diagram
+```
+Common
+ <- StepmaniaParser
+ <- Player
+   <- SwingPlayer
+   <- DmxPlayer
+   <- OpenRgbPlayer
+```
+
+## Data flow diagram
+```
+                                                          /---> SwingPlayer 
+Simfile (sm) ---> StepmaniaParser ---> SongFile (yaml) ---+---> DmxPlayer
+                                                          \---> OpenRgbPlayer
+```
+
 ## TODOs
 
-- [ ] Split off code for Stepmania parsing, OpenRGB and DMX driving into separate libs.
+- [x] Split off code for Stepmania parsing, OpenRGB and DMX driving into separate libs.
 - [ ] Improve MainLoop so that it doesn't have to wait for the next frame.
 - [x] Update LEDs per device instead of in bulk, so that the value is most actual before it is sent to OpenRGB.
 - [ ] Clean up code, this is a mess.
