@@ -1,8 +1,6 @@
 # ReactiveStepmaniaLightShow 
 
-This code is very rough, there's still a fair bit of work to do until I am content putting this on mvncentral.
-
-This is direct raw testing code straight to my goal, please don't judge me.
+https://www.youtube.com/watch?v=ndDqFXKH4PI
 
 # Architecture overview
 
